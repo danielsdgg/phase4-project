@@ -1,0 +1,180 @@
+body{
+  background-color: rgb(26, 87, 127);
+}
+
+.parksitem{
+  background-color: rgb(91, 107, 148);
+  box-shadow: 0 4px 8px 0 rgba(65, 96, 134, 0.2);
+  border-radius: 8px;
+  width: 18%;
+  color: #f0f4f5;
+  margin: 5px;
+  border: 3px;
+  padding: 5px;
+}
+
+.park-container{
+  display: flex;
+  justify-content: center;
+  flex-flow: wrap;
+}
+
+.hotel-container{
+  display: flex;
+  justify-content: center;
+  flex-flow: wrap;
+}
+
+.hotelsitem{
+  background-color: rgb(91, 107, 148);
+  box-shadow: 0 4px 8px 0 rgba(65, 96, 134, 0.2);
+  border-radius: 8px;
+  width: 18%;
+  color: #f0f4f5;
+  margin: 5px;
+  border: 3px;
+  padding: 5px;
+}
+
+img{
+  width: 300px;
+  height: 300px;
+}
+
+.addpark-form{
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+  flex-direction: column;
+}
+
+.book{
+  background-color: rgb(28, 164, 28);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.book:hover{
+  background-color: rgb(189, 229, 189);
+}
+
+.upd{
+  background-color:lightskyblue;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.upd:hover{
+  background-color: blue;
+
+}
+
+.del1{
+  background-color: red;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.del1:hover{
+  background-color:rgb(222, 95, 95);
+}
+
+.btn2{
+  background-color: rgb(28, 164, 28);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn2:hover{
+  background-color: rgb(189, 229, 189);
+}
+
+.navbar{
+  background-color: black;
+  font-size: 20px;
+}
+
+.addhotel-form{
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+}
+
+.addhotel-form input[type="text"],
+.addhotel-form input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 10px;
+  height: 20%;
+}
+
+.addpark-form{
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+}
+
+.addpark-form input[type="text"],
+.addpark-form input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 10px;
+  height: 20%;
+}
+
+.btn3{
+  background-color: rgb(28, 164, 28);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn3:hover{
+  background-color: rgb(189, 229, 189);
+
+}
+
+.form-outline{
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+  flex-direction:column
+}
+
+.reviews{
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+}
+
+.reviews input [type="text"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 10px;
+  height: 20%;
+}
