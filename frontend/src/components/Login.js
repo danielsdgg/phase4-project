@@ -1,64 +1,71 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 
+const Login = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-let isFilled = false;
-
-function Login() {
-  const [formData, setFormData] = useState({
-    username: "",
-    password: ""
-  });
-
-  const history = useHistory();
-
-  function handleSubmit(event) {
-    isFilled = true
-    event.preventDefault();
-
-    fetch(`/login`, {
-      method: "POST",
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(username);
+    console.log(password);
+    fetch('/login', {
+      method: 'POST',
       headers: {
-        "Content-type": "application/json"
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(formData)
+      body: JSON.stringify({ username, password }),
     })
-    .then(response => response.json())
-    .then(data => {
-      setFormData({
-        username: "",
-        password: ""
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        console.log('Response:', error.response);
       });
+  };
 
-      if (isFilled === true) {
-        history.push('/about');
-      }
+  const logOut = (e) => {
+    e.preventDefault();
+    fetch('/logout', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(),
     });
-  }
-
-  function handleChange(event) {
-    const { name, value } = event.target;
-    setFormData(formData => ({ ...formData, [name]: value }));
-  }
+  };
 
   return (
-    <>
-      <h2 style={{textAlign:"center", color:"whitesmoke"}} id='login-title'>LOG IN</h2>
-      <form id='login-form' onSubmit={handleSubmit}>
-        {/* name input  */}
+    <div id="form">
+      <h2 id="login-title">Login</h2>
+      <form onSubmit={handleSubmit}>
         <div className="form-outline">
-          <input type="text" style={{height:"20px", padding:"5px"}} id="input1" className="form-control" name="username" placeholder='Username' value={formData.username} onChange={handleChange}/> <br></br><br></br>
-          
-        
-        {/* Password input  */}
-        
-          <input type="password" style={{height:"20px", padding:"5px"}} id="input2" className="form-control" name="password" placeholder='Password' value={formData.password} onChange={handleChange}/><br></br><br></br>
-        
-        {/* Submit button */}
-        <button type="submit" className="btn3">Log in</button>
+          <input
+            type="text"
+            className="form-control"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <label className="form-label">Username</label>
         </div>
+        <div className="form-outline">
+          <input
+            type="password"
+            className="form-control"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <label className="form-label">Password</label>
+        </div>
+        <button className="btn" type="submit">Login</button>
       </form>
-    </>
+      <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+      <button className="btn" type="button" onClick={logOut}>Log Out</button>
+    </div>
   );
-}
+};
+
 export default Login;

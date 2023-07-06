@@ -2,17 +2,18 @@ from flask import Flask, make_response, jsonify, request, session
 from flask_migrate import Migrate
 from models import db, User, Hotel, Park, Ranger, Review, Booking
 from flask_cors import CORS
+from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///jambo.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 app.config['SECRET_KEY']=b'\xbe\xd7b\x87\xdbF\x1e\xcf\xc1\xa7\xb7\x12\xc5Y\xe7\
 xd9\xa6\x86\xc7PH\xbea'
 
 CORS(app)
 migrate = Migrate(app, db)
 db.init_app(app)
+bycrypt = Bcrypt(app)
 
 @app.route('/')
 def home():
@@ -20,34 +21,46 @@ def home():
 
 @app.route('/login', methods=['POST'])
 def login():
-    username = request.form['username']
-    password = request.form['password']
+    username = request.json['username']
+    password = request.json['password']
     user = User.query.filter_by(username=username).first()
     if user:
-        if user.check_password(password):
+        if bycrypt.check_password_hash(user.password, password):
             session['id'] = user.id
             return jsonify({'message': 'Login Successful'})
         else:
             return jsonify({'message': 'Invalid Credentials'})
+    else:
+        return jsonify({'message': 'User not found'})
 
 @app.route('/register', methods=['POST'])
 def register():
-    if 'username' in request.form and 'password' in request.form:
-        new_user = User(
-            username=request.form.get('username'),
-            phone_number=request.form.get('phone_number'),
-            password=request.form.get('password')
-        )
-        db.session.add(new_user)
-        db.session.commit()
-        return jsonify({'message': 'User created'})
+    if 'username' in request.json and 'password' in request.json:
+        username = request.json['username']
+        existing_user = User.query.filter_by(username=username).first()
+        if existing_user:
+            return jsonify({'message': 'Username already exists'})
+        else:
+            password = request.json['password']
+            hashed_password = bycrypt.generate_password_hash(password)
+            new_user = User(
+                username=username,
+                phone_number=request.json['phone_number'],
+                password=hashed_password
+            )
+            db.session.add(new_user)
+            db.session.commit()
+            session['id'] = new_user.id
+            return jsonify({'message': 'Registration Successful'})
     else:
-        return jsonify({'message': 'Missing username, phone number or password'})
+        return jsonify({'message': 'Missing username or password'})
+
 
 @app.route('/logout', methods=['POST'])
 def logout():
-    del session['id']
-    return {"msg":"User logged out"}
+    session.pop('id', None) 
+    return {"msg": "User logged out"}
+
 
 @app.route('/users', methods=['GET'])
 def get_users():
@@ -136,7 +149,7 @@ def get_hotels():
             return response
     elif request.method == 'POST':
         if 'id' in session:
-            name = request.form.get('name')
+            name = request.json['name']
 
             # Check if the name already exists in the parks table
             existing_hotel = Hotel.query.filter_by(name=name).first()
@@ -145,11 +158,11 @@ def get_hotels():
                 # You can choose to update the existing record or return an error response
                 return make_response(jsonify(error='Hotel with the same name already exists'), 400)
             new_hotel = Hotel(
-                name=request.form.get('name'),
-                image_url=request.form.get('image_url'),
-                description=request.form.get('description'),
-                location=request.form.get('location'),
-                prices=request.form.get('prices'),
+                name=request.json['name'],
+                image_url=request.json['image_url'],
+                description=request.json['description'],
+                location=request.json['location'],
+                prices=request.json['prices'],
             )
             db.session.add(new_hotel)
             db.session.commit()
@@ -204,7 +217,7 @@ def get_hotel(id):
             if hotel:
                 attributes_to_update = ['name', 'image_url', 'description', 'location', 'prices']
                 for attribute in attributes_to_update:
-                    value = request.form.get(attribute)
+                    value = request.json[attribute]
                     if value:
                         setattr(hotel, attribute, value)
                 db.session.commit()
@@ -280,7 +293,7 @@ def get_parks():
 
     if request.method == 'POST':
         if 'id' in session:
-            name = request.form.get('name')
+            name = request.json['name']
 
             # Check if the name already exists in the parks table
             existing_park = Park.query.filter_by(name=name).first()
@@ -290,11 +303,11 @@ def get_parks():
                 return make_response(jsonify(error='Park with the same name already exists'), 400)
 
             new_park = Park(
-                name=request.form.get('name'),
-                image_url=request.form.get('image_url'),
-                description=request.form.get('description'),
-                location=request.form.get('location'),
-                prices=request.form.get('prices'),
+                name=request.json['name'],
+                image_url=request.json['image_url'],
+                description=request.json['description'],
+                location=request.json['location'],
+                prices=request.json['prices'],
             )
             db.session.add(new_park)
             db.session.commit()
@@ -352,7 +365,7 @@ def get_park(id):
             if park:
                 attributes_to_update = ['name', 'image_url', 'description', 'location']
                 for attribute in attributes_to_update:
-                    value = request.form.get(attribute)
+                    value = request.json[attribute]
                     if value:
                         setattr(park, attribute, value)
                 db.session.commit()
@@ -428,8 +441,8 @@ def get_rangers():
     elif request.method == 'POST':
         if 'id' in session:
             new_ranger = Ranger(
-                name=request.form.get('name'),
-                gender=request.form.get('gender'),
+                name=request.json['name'],
+                gender=request.json['gender'],
             )
             db.session.add(new_ranger)
             db.session.commit()
@@ -476,7 +489,7 @@ def get_ranger(id):
             if ranger:
                 attributes_to_update = ['name', 'gender']
                 for attribute in attributes_to_update:
-                    value = request.form.get(attribute)
+                    value = request.json[attribute]
                     if value:
                         setattr(ranger, attribute, value)
                 db.session.commit()
@@ -546,10 +559,10 @@ def get_reviews():
 
     if request.method == 'POST':
         if 'id' in session:
-            name = request.form.get('name')
-            email = request.form.get('email')
-            feedback = request.form.get('feedback')
-            user_id = request.form.get('user_id')
+            name = request.json['name']
+            email = request.json['email']
+            feedback = request.json['feedback']
+            user_id = request.json['user_id']
 
             new_review = Review(
                 name=name,
@@ -591,9 +604,9 @@ def get_bookings():
     if request.method == 'POST':
         if 'id' in session:
            
-            username=request.form.get("username")
-            check_in=request.form.get('check_in')
-            check_out=request.form.get('check_out')
+            username=request.json["username"]
+            check_in=request.json['check_in']
+            check_out=request.json['check_out']
 
             new_booking = Booking(
                 username=username,

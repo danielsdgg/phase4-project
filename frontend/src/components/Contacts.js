@@ -39,25 +39,60 @@ function Contacts(){
         setFeedback("")
     }
     return(
-        <div className="fm1">
-            <form className="reviews" onSubmit={handleSubmit}>
-                <h2 style={{textAlign:"center"}}>Contacts Page</h2>
-                <p style={{textAlign:"center"}}>We would love to hear from you</p>
+        <div className="fm1" style={{ width: "300px", margin: "auto", textAlign: "center" }}>
+  <form id="form" onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+    <h2 style={{ fontSize: "24px", fontWeight: "bold" }}>Contacts Page</h2>
+    <p style={{ fontSize: "16px" }}>We would love to hear from you</p>
 
-                <label type="text">Enter Name:</label>
-                <input type="text" style={{width:"100%", height:"35%", marginBottom:"1%"}} id="name" value={name} placeholder="daniel" onChange={e => setName(e.target.value)}/><br></br>
+    <label htmlFor="name" style={{ textAlign: "left", fontSize: "14px" }}>Enter Name:</label>
+    <input
+      type="text"
+      id="name"
+      value={name}
+      placeholder="Daniel"
+      onChange={e => setName(e.target.value)}
+      style={{ height: "35px", borderRadius: "5px", border: "1px solid #ccc", padding: "5px" }}
+    />
 
-                <label type="text">Enter emailaddress:</label>
-                <input type="text" style={{width:"100%", height:"35%", marginBottom:"1%"}} id="email" value={email} placeholder="your-email@13.com" onChange={e => setEmail(e.target.value)}/><br></br>
-               
-                <label type="text">Enter Your Feedback:</label>
-                <input type="text" style={{width:"100%", height:"35%", marginBottom:"1%"}} id="feeds" value={feedback} placeholder="Your reviews/suggestions" onChange={e => setFeedback(e.target.value)}/><br></br>
+    <label htmlFor="email" style={{ textAlign: "left", fontSize: "14px" }}>Enter Email Address:</label>
+    <input
+      type="text"
+      id="email"
+      value={email}
+      placeholder="your-email@example.com"
+      onChange={e => setEmail(e.target.value)}
+      style={{ height: "35px", borderRadius: "5px", border: "1px solid #ccc", padding: "5px" }}
+    />
 
-                <button style={{backgroundColor:"green", cursor:"pointer",padding: "10px",border: "none"}} className="submit-message" type="submit" onC>Submit</button>
+    <label htmlFor="feedback" style={{ textAlign: "left", fontSize: "14px" }}>Enter Your Feedback:</label>
+    <input
+      type="text"
+      id="feedback"
+      value={feedback}
+      placeholder="Your reviews/suggestions"
+      onChange={e => setFeedback(e.target.value)}
+      style={{ height: "35px", borderRadius: "5px", border: "1px solid #ccc", padding: "5px" }}
+    />
 
+    <button
+      className="submit-message"
+      type="submit"
+      style={{
+        backgroundColor: "green",
+        cursor: "pointer",
+        padding: "10px",
+        border: "none",
+        color: "white",
+        borderRadius: "5px",
+        fontSize: "16px",
+        fontWeight: "bold"
+      }}
+    >
+      Submit
+    </button>
+  </form>
+</div>
 
-            </form>
-        </div>
     )
 }
 

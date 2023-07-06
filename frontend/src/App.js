@@ -9,6 +9,7 @@ import About from './components/About';
 import AddPark from './components/AddPark';
 import AddHotel from './components/AddHotel';
 import Contacts from './components/Contacts';
+import Signup from './components/Signup';
 
 function App() {
   const [hotels, setHotels] = useState([])
@@ -79,8 +80,11 @@ function App() {
     <Route path="/contacts">
     <Contacts/>
     </Route>
-      <Route exact path="/">
+    <Route exact path="/">
     <Login />
+    </Route>
+    <Route exact path="/signup">
+    <Signup />
     </Route>
     </Switch>
       
