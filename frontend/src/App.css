@@ -48,21 +48,7 @@ img{
   flex-direction: column;
 }
 
-.book{
-  background-color: rgb(28, 164, 28);
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px;
-  font-size: 13px;
-  cursor: pointer;
-}
-
-.book:hover{
-  background-color: rgb(189, 229, 189);
-}
-
-.upd{
+.up1{
   background-color:lightskyblue;
   color: #fff;
   border: none;
@@ -72,12 +58,12 @@ img{
   cursor: pointer;
 }
 
-.upd:hover{
+.up1:hover{
   background-color: blue;
 
 }
 
-.del1{
+.dl3{
   background-color: red;
   color: #fff;
   border: none;
@@ -87,7 +73,36 @@ img{
   cursor: pointer;
 }
 
-.del1:hover{
+.dl3:hover{
+  background-color:rgb(222, 95, 95);
+}
+
+.up2{
+  background-color:lightskyblue;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.up2:hover{
+  background-color: blue;
+
+}
+
+.dl2{
+  background-color: red;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.dl2:hover{
   background-color:rgb(222, 95, 95);
 }
 
@@ -177,4 +192,103 @@ img{
   border: none;
   margin-bottom: 10px;
   height: 20%;
+}
+
+.bookform{
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+}
+
+.bookform input[type="text"],
+.bookform input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 10px;
+  height: 20%;
+}
+
+.hotel-form{
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+}
+
+.hotel-form input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 10px;
+  height: 20%;
+}
+
+.park-form{
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+}
+
+.park-form input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 10px;
+  height: 20%;
+}
+#sub1{
+  background-color: rgb(28, 164, 28);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+#sub1:hover{
+  background-color: rgb(189, 229, 189);
+}
+
+#sub2{
+  background-color: rgb(28, 164, 28);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+#sub2:hover{
+  background-color: rgb(189, 229, 189);
+}
+
+.bk1{
+  background-color: rgb(28, 164, 28);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.bk1:hover{
+  background-color: rgb(189, 229, 189);
+}
+
+.bk2{
+  background-color: rgb(28, 164, 28);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.bk2:hover{
+  background-color: rgb(189, 229, 189);
 }

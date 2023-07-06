@@ -9,6 +9,9 @@ import About from './components/About';
 import AddPark from './components/AddPark';
 import AddHotel from './components/AddHotel';
 import Contacts from './components/Contacts';
+import UpdateHotels from './components/UpdateHotels';
+import UpdateParks from './components/UpdateParks';
+import Bookings from './components/Bookings';
 
 function App() {
   const [hotels, setHotels] = useState([])
@@ -28,31 +31,26 @@ function App() {
     .then(data => setParks(data))
   }, [])
 
-    // Add park
-  const addPark = (park) => {
-    fetch("/parks", {
-      method:"POST",
-      headers:{
-        "Accept": "application/json",
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify(park)
+  // delete park
+  function DeletePark() {
+    fetch('/park',{
+      method:"DELETE",
+      headers: {
+      "Content-Type":"application/json"
+    }
     })
-    .then(r => console.log(r))
   }
 
-  // Add hotel
-  const addHotel = (hotel) => {
-    fetch("/hotels", {
-      method:"POST",
-      headers:{
-        "Accept": "application/json",
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify(hotel)
-    })
-    .then(r => console.log(r))
-  }
+  // delete hotel
+function DeleteHotel(){
+  fetch('/hotel',{
+    method:"DELETE",
+    headers: {
+      "Content-Type":"application/json"
+    }
+  })
+  
+}
 
 
 
@@ -71,15 +69,30 @@ function App() {
     <About/>
     </Route>
     <Route path="/addparks">
-    <AddPark addPark={addPark}/>
+    <AddPark />
     </Route>
     <Route path="/addhotels">
-    <AddHotel addHotel={addHotel}/>
+    <AddHotel/>
     </Route>
     <Route path="/contacts">
     <Contacts/>
     </Route>
-      <Route exact path="/">
+    <Route path="/updhotel">
+    <UpdateHotels/>
+    </Route>
+    <Route path="/updpark">
+    <UpdateParks/>
+    </Route>
+    <Route path="/bookings">
+    <Bookings/>
+    </Route>
+    <Route path="/oneprk">
+    <DeletePark/>
+    </Route>
+    <Route path="/onehtl">
+    <DeleteHotel/>
+    </Route>
+    <Route exact path="/">
     <Login />
     </Route>
     </Switch>

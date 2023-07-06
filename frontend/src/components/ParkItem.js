@@ -1,10 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-function deletePark() {
-    fetch('/park',{method:"DELETE",
-      headers:{"Content-Type":"application/json"}
-    })
-  }
+// function deletePark() {
+//     fetch('/park',{method:"DELETE",
+//       headers:{"Content-Type":"application/json"}
+//     })
+//   }
 
 function ParkItem({name,image_url,description,location,prices}){
     return(
@@ -15,9 +16,9 @@ function ParkItem({name,image_url,description,location,prices}){
             <p>Location: {location}</p>
             <p>Price {prices}</p> <br></br>
 
-            <button className="book">Book</button><br></br><br></br>
-            <button className="upd">Update</button><br></br><br></br>
-            <button className="del1" onClick={deletePark}>Delete</button>
+            <Link to={"/bookings"}><button className="bk1">Book</button></Link><br></br><br></br>
+            <Link to={"/updpark"}><button className="up1">Update</button></Link><br></br><br></br>
+            <Link to={"/oneprk"}><button className="dl3">Delete</button></Link><br></br><br></br>
         </div>
     )
 }
