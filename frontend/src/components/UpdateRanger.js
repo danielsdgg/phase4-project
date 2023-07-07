@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
 
 function UpdateRanger(){
+    const { id } = useParams();
+    const history = useHistory();
     const [formData, setFormData] = useState({
         name:"",
         gender:"",
@@ -12,16 +15,21 @@ function UpdateRanger(){
             name:formData.name,
             gender:formData.gender,
         };
-        fetch('/ranger', {
+        fetch(`/ranger/${id}`, {
             method:"PATCH",
             headers: {
                 "Content-Type":"application/json",
             },
             body: JSON.stringify(newRanger)
         })
-        .then(r => r.json())
-        .then(data => {console.log(data)
-        })
+        .then(r => {
+            if (r.ok){
+                alert("Updated successfully")
+                return r.json()}
+            })
+            .then(data => {console.log(data)
+            })
+            history.push("/rangers")
     }
     return(
         <div className="rang">

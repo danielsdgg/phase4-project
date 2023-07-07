@@ -1,6 +1,6 @@
 from flask import Flask, make_response, jsonify, request, session
 from flask_migrate import Migrate
-from models import db, User, Hotel, Park, Ranger, Review, Booking
+from models import db, User, Hotel, Park, Ranger, Review, Booking, Admin
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 
@@ -13,25 +13,41 @@ xd9\xa6\x86\xc7PH\xbea'
 CORS(app)
 migrate = Migrate(app, db)
 db.init_app(app)
-bycrypt = Bcrypt(app)
+bcrypt = Bcrypt(app)
 
 @app.route('/')
 def home():
     return jsonify({'message': 'Welcome to the jambo API'})
 
-@app.route('/login', methods=['POST'])
+@app.route('/login_user', methods=['POST'])
 def login():
     username = request.json['username']
     password = request.json['password']
     user = User.query.filter_by(username=username).first()
     if user:
-        if bycrypt.check_password_hash(user.password, password):
-            session['id'] = user.id
-            return jsonify({'message': 'Login Successful'})
+        if bcrypt.check_password_hash(user.password, password):
+            session['user_id'] = user.id
+            return jsonify({'message': 'User login successful'})
         else:
-            return jsonify({'message': 'Invalid Credentials'})
+            return jsonify({'message': 'Invalid credentials'})
     else:
         return jsonify({'message': 'User not found'})
+
+@app.route('/login_admin', methods=['POST'])
+def login_admin():
+    username = request.json['username']
+    password = request.json['password']
+    admin = Admin.query.filter_by(username=username).first()
+    if admin:
+        if bcrypt.check_password_hash(admin.password, password):
+            session['admin_id'] = admin.id
+            return jsonify({'message': 'Admin login successful'})
+        else:
+            return jsonify({'message': 'Invalid credentials'})
+    else:
+        return jsonify({'message': 'Admin not found'})
+
+    
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -42,7 +58,7 @@ def register():
             return jsonify({'message': 'Username already exists'})
         else:
             password = request.json['password']
-            hashed_password = bycrypt.generate_password_hash(password)
+            hashed_password = bcrypt.generate_password_hash(password)
             new_user = User(
                 username=username,
                 phone_number=request.json['phone_number'],
@@ -50,7 +66,7 @@ def register():
             )
             db.session.add(new_user)
             db.session.commit()
-            session['id'] = new_user.id
+            session['user_id'] = new_user.id
             return jsonify({'message': 'Registration Successful'})
     else:
         return jsonify({'message': 'Missing username or password'})
@@ -58,9 +74,26 @@ def register():
 
 @app.route('/logout', methods=['POST'])
 def logout():
-    session.pop('id', None) 
-    return {"msg": "User logged out"}
+    if 'user_id' in session:
+        session.pop('user_id', None)
+        return jsonify({'message': 'User logged out'})
+    elif 'admin_id' in session:
+        session.pop('admin_id', None)
+        return jsonify({'message': 'Admin logged out'})
+    else:
+        return jsonify({'message': 'No user or admin session found'})
 
+
+@app.before_request
+def check_admin_access():
+    if request.endpoint == 'admin_dashboard':
+        if 'admin_id' not in session:
+            return jsonify({'message': 'Unauthorized access'}), 401
+
+@app.route('/admin/dashboard')
+def admin_dashboard():
+    # Route accessible only by admins
+    return jsonify({'message': 'Welcome to the admin dashboard'})
 
 @app.route('/users', methods=['GET'])
 def get_users():
@@ -104,7 +137,7 @@ def get_user(id):
                 return response
 
     elif request.method == 'DELETE':
-        if 'id' in session:
+        if 'admin_id' in session:
             user = User.query.filter_by(id=id).first()
             if user:
                 db.session.delete(user)
@@ -148,7 +181,7 @@ def get_hotels():
             )
             return response
     elif request.method == 'POST':
-        if 'id' in session:
+        if 'admin_id' in session:
             name = request.json['name']
 
             # Check if the name already exists in the parks table
@@ -212,7 +245,7 @@ def get_hotel(id):
                 return response
     
     if request.method == 'PATCH':
-        if 'id' in session:
+        if 'admin_id' in session:
             hotel = Hotel.query.filter_by(id=id).first()
             if hotel:
                 attributes_to_update = ['name', 'image_url', 'description', 'location', 'prices']
@@ -248,7 +281,7 @@ def get_hotel(id):
             return response
 
     if request.method == 'DELETE':
-        if 'id' in session:
+        if 'admin_id' in session:
             hotel = Hotel.query.filter_by(id=id).first()
             if hotel:
                 db.session.delete(hotel)
@@ -292,7 +325,7 @@ def get_parks():
             return response
 
     if request.method == 'POST':
-        if 'id' in session:
+        if 'admin_id' in session:
             name = request.json['name']
 
             # Check if the name already exists in the parks table
@@ -331,7 +364,7 @@ def get_parks():
 @app.route('/park/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
 def get_park(id):
     if request.method == 'GET':
-        if 'id' in session:
+        if 'admin_id' in session:
             park = Park.query.filter_by(id=id).first()
             if park:
                 response = make_response(
@@ -360,7 +393,7 @@ def get_park(id):
             return response
 
     if request.method == 'PATCH':
-        if 'id' in session:
+        if 'admin_id' in session:
             park = Park.query.filter_by(id=id).first()
             if park:
                 attributes_to_update = ['name', 'image_url', 'description', 'location']
@@ -396,7 +429,7 @@ def get_park(id):
             return response
 
     if request.method == 'DELETE':
-        if 'id' in session:
+        if 'admin_id' in session:
             park = Park.query.filter_by(id=id).first()
             if park:
                 db.session.delete(park)
@@ -439,7 +472,7 @@ def get_rangers():
             return response
 
     elif request.method == 'POST':
-        if 'id' in session:
+        if 'admin_id' in session:
             new_ranger = Ranger(
                 name=request.json['name'],
                 gender=request.json['gender'],
@@ -484,7 +517,7 @@ def get_ranger(id):
                 return response
 
     if request.method == 'PATCH':
-        if 'id' in session:
+        if 'admin_id' in session:
             ranger = Ranger.query.filter_by(id=id).first()
             if ranger:
                 attributes_to_update = ['name', 'gender']
@@ -517,7 +550,7 @@ def get_ranger(id):
             return response
 
     if request.method == 'DELETE':
-        if 'id' in session:
+        if 'admin_id' in session:
             ranger = Ranger.query.get(id)
             if ranger:
                 db.session.delete(ranger)
@@ -558,7 +591,7 @@ def get_reviews():
             return response
 
     if request.method == 'POST':
-        if 'id' in session:
+        
             name = request.json['name']
             email = request.json['email']
             feedback = request.json['feedback']
@@ -575,10 +608,7 @@ def get_reviews():
 
             response = make_response(jsonify({"message": "Create a new review"}))
             return response
-        else:
-            response = make_response(jsonify({'message': 'Unauthorized access'}), 401)
-            return response
-
+       
 @app.route('/bookings', methods=['GET', 'POST'])
 def get_bookings():
     if request.method == 'GET':
@@ -602,7 +632,7 @@ def get_bookings():
 
     
     if request.method == 'POST':
-        if 'id' in session:
+        if 'admin_id' in session:
            
             username=request.json["username"]
             check_in=request.json['check_in']

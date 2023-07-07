@@ -6,16 +6,14 @@ import Navbar from './components/NavBar';
 import { Route, Switch } from 'react-router-dom';
 import Login from './components/Login';
 import About from './components/About';
-import AddPark from './components/AddPark';
-import AddHotel from './components/AddHotel';
 import Contacts from './components/Contacts';
 import UpdateHotels from './components/UpdateHotels';
 import UpdateParks from './components/UpdateParks';
 import Bookings from './components/Bookings';
 import Signup from './components/Signup';
 import UpdateRanger from './components/UpdateRanger';
-import AddRanger from './components/AddRanger';
 import RangerList from './components/RangerList';
+import Dashboard from './components/Dashboard';
 
 function App() {
   const [hotels, setHotels] = useState([])
@@ -43,34 +41,42 @@ function App() {
     .then(data => setRangers(data))
   }, [])
 
-  // delete park
-  function DeletePark(id) {
-    fetch(`/park/${id}`, {
-      method: 'DELETE',
-    })
-    .then(r => r.json())
-    .then(data => setRangers(data)) 
-  }
-
-  // delete hotel
-function DeleteHotel(id){
-  fetch(`/hotel/${id}`,{
-    method:"DELETE",
+// delete park
+function DeletePark(id) {
+  fetch(`/park/${id}`, {
+    method: 'DELETE',
   })
-  .then(r => r.json())
-  .then(data => setHotels(data))  
+    .then(() => {
+      // Handle successful deletion
+      setRangers(rangers.filter((ranger) => ranger.id !== id));
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
 }
 
- // delete ranger
- function DeleteRanger(id) {
-  fetch(`/ranger/${id}`, {
-    method: "DELETE",
+// delete hotel
+function DeleteHotel(id) {
+  fetch(`/hotel/${id}`, {
+    method: 'DELETE',
   })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.message === 'Ranger deleted') {
-        setRangers(rangers.filter((ranger) => ranger.id !== id));
-      }
+    .then(() => {
+      // Handle successful deletion
+      setHotels(hotels.filter((hotel) => hotel.id !== id));
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+}
+
+// delete ranger
+function DeleteRanger(id) {
+  fetch(`/ranger/${id}`, {
+    method: 'DELETE',
+  })
+    .then(() => {
+      // Handle successful deletion
+      setRangers(rangers.filter((ranger) => ranger.id !== id));
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -129,14 +135,14 @@ const addHotel = (hotel) => {
     }
   })
 }
-
-
-
   return (
     <div className="App">
     <header style={{ textAlign: "center", fontSize: "35px", padding: "10px", color: "white", fontWeight: "bold" }}>Jambo-Journeys App</header>
     <Navbar />
     <Switch>
+    <Route path="/admin_dashboard" addPark={addPark} addHotel={addHotel} addRanger={addRanger} >
+    <Dashboard />
+    </Route>
     <Route path="/parks">
     <ParkList parks={parks} deletePark={DeletePark}/>
     </Route>
@@ -148,15 +154,6 @@ const addHotel = (hotel) => {
     </Route>
     <Route path="/about">
     <About/>
-    </Route>
-    <Route path="/addparks">
-    <AddPark addPark={addPark}/>
-    </Route>
-    <Route path="/addhotels">
-    <AddHotel addHotel={addHotel}/>
-    </Route>
-    <Route path="/addrangers">
-    <AddRanger addRanger={addRanger}/>
     </Route>
     <Route path="/contacts">
     <Contacts/>
@@ -170,18 +167,9 @@ const addHotel = (hotel) => {
     <Route path="/bookings">
     <Bookings/>
     </Route>
-    {/* <Route path="/oneprk">
-    <DeletePark/>
-    </Route> */}
-    {/* <Route path="/onehtl">
-    <DeleteHotel/>
-    </Route> */}
     <Route path="/updranger">
     <UpdateRanger/>
     </Route>
-    {/* <Route path="/delranger">
-    <DeleteRanger/>
-    </Route> */}
     <Route path="/signup">
     <Signup/>
     </Route>

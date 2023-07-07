@@ -2,15 +2,12 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 const Login = () => {
-  const history = useHistory()
+  const history = useHistory();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(username);
-    console.log(password);
-    fetch('/login', {
+  const handleAdminLogin = () => {
+    return fetch('/login_admin', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -19,23 +16,60 @@ const Login = () => {
       body: JSON.stringify({ username, password }),
     })
       .then((response) => {
-        if (response.ok){
-          alert("Logged in successfully")
-          return response.json()
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Invalid admin credentials');
         }
-
       })
+      .catch((error) => {
+        console.error('Admin login failed:', error);
+        throw error; // Rethrow the error to proceed to user login
+      });
+  };
+
+  const handleUserLogin = () => {
+    return fetch('/login_user', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Invalid username or password');
+        }
+      })
+      .catch((error) => {
+        console.error('User login failed:', error);
+        throw error; // Rethrow the error to handle the case of no user found
+      });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    handleAdminLogin()
       .then((data) => {
         console.log(data);
-      }) 
-      
+        history.push('/admin_dashboard');
+      })
       .catch((error) => {
-        console.error('Error:', error);
-        console.log('Response:', error.response);
+        console.error('Admin login failed. Trying user login...');
+        handleUserLogin()
+          .then((data) => {
+            console.log(data);
+            history.push('/hotels');
+          })
+          .catch((error) => {
+            console.error('User login failed:', error);
+            // Handle login failure, e.g., display an error message
+          });
       });
-
-      history.push('/hotels')
-      
   };
 
   const logOut = (e) => {
@@ -49,9 +83,9 @@ const Login = () => {
       body: JSON.stringify(),
     })
       .then((response) => {
-        if (response.ok){
-          alert("User has been logged out")
-          return response.json()
+        if (response.ok) {
+          alert('You have been logged out');
+          return response.json();
         }
       })
       .then((data) => {
@@ -60,7 +94,6 @@ const Login = () => {
       .catch((error) => {
         console.error('Error:', error);
       });
-      
   };
 
   return (
@@ -94,3 +127,4 @@ const Login = () => {
 };
 
 export default Login;
+

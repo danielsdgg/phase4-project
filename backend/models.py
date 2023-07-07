@@ -2,6 +2,20 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+class Admin(db.Model):
+    __tablename__ = 'admins'
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(), unique=True)
+    password = db.Column(db.String())
+
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
+
+    def check_password(self, password):
+        return self.password == password
+
 class User(db.Model):
     __tablename__ = 'users'
 
