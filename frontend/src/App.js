@@ -44,26 +44,17 @@ function App() {
   }, [])
 
   // delete park
-  function DeletePark() {
-    fetch('/park', {
+  function DeletePark(id) {
+    fetch(`/park/${id}`, {
       method: 'DELETE',
     })
-      .then((response) => {
-        if (response.ok) {
-          console.log('Park deleted successfully');
-        } else {
-          // Request was not successful
-          throw new Error('Failed to delete park');
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+    .then(r => r.json())
+    .then(data => setRangers(data)) 
   }
 
   // delete hotel
-function DeleteHotel(){
-  fetch('/hotel',{
+function DeleteHotel(id){
+  fetch(`/hotel/${id}`,{
     method:"DELETE",
   })
   .then(r => r.json())
@@ -71,12 +62,19 @@ function DeleteHotel(){
 }
 
  // delete ranger
- function DeleteRanger(){
-  fetch('/ranger',{
-    method:"DELETE",
+ function DeleteRanger(id) {
+  fetch(`/ranger/${id}`, {
+    method: "DELETE",
   })
-  .then(r => r.json())
-  .then(data => setRangers(data))  
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.message === 'Ranger deleted') {
+        setRangers(rangers.filter((ranger) => ranger.id !== id));
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
 }
 
 // Add ranger
@@ -136,17 +134,17 @@ const addHotel = (hotel) => {
 
   return (
     <div className="App">
-      <header style={{textAlign:"center", backgroundColor:"lightgreen", fontSize:"35px"}}>Jambo-Journeys App</header>
-      <Navbar />
+    <header style={{ textAlign: "center", fontSize: "35px", padding: "10px", color: "white", fontWeight: "bold" }}>Jambo-Journeys App</header>
+    <Navbar />
     <Switch>
     <Route path="/parks">
-    <ParkList parks = {parks}/>
+    <ParkList parks={parks} deletePark={DeletePark}/>
     </Route>
     <Route path="/hotels">
-    <HotelList hotels={hotels}/>
+    <HotelList hotels={hotels} deleteHotel={DeleteHotel}/>
     </Route>
     <Route path="/rangers">
-    <RangerList rangers={rangers}/>
+    <RangerList rangers={rangers} deleteRanger={DeleteRanger}/>
     </Route>
     <Route path="/about">
     <About/>
@@ -172,18 +170,18 @@ const addHotel = (hotel) => {
     <Route path="/bookings">
     <Bookings/>
     </Route>
-    <Route path="/oneprk">
+    {/* <Route path="/oneprk">
     <DeletePark/>
-    </Route>
-    <Route path="/onehtl">
+    </Route> */}
+    {/* <Route path="/onehtl">
     <DeleteHotel/>
-    </Route>
+    </Route> */}
     <Route path="/updranger">
     <UpdateRanger/>
     </Route>
-    <Route path="/delranger">
+    {/* <Route path="/delranger">
     <DeleteRanger/>
-    </Route>
+    </Route> */}
     <Route path="/signup">
     <Signup/>
     </Route>
