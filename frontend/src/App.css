@@ -48,21 +48,7 @@ img{
   flex-direction: column;
 }
 
-.book{
-  background-color: rgb(28, 164, 28);
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px;
-  font-size: 13px;
-  cursor: pointer;
-}
-
-.book:hover{
-  background-color: rgb(189, 229, 189);
-}
-
-.upd{
+.up1{
   background-color:lightskyblue;
   color: #fff;
   border: none;
@@ -72,12 +58,12 @@ img{
   cursor: pointer;
 }
 
-.upd:hover{
+.up1:hover{
   background-color: blue;
 
 }
 
-.del1{
+.dl3{
   background-color: red;
   color: #fff;
   border: none;
@@ -87,7 +73,36 @@ img{
   cursor: pointer;
 }
 
-.del1:hover{
+.dl3:hover{
+  background-color:rgb(222, 95, 95);
+}
+
+.up2{
+  background-color:lightskyblue;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.up2:hover{
+  background-color: blue;
+
+}
+
+.dl2{
+  background-color: red;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.dl2:hover{
   background-color:rgb(222, 95, 95);
 }
 
@@ -164,33 +179,158 @@ img{
   flex-direction:column
 }
 
-/* .reviews{
+.reviews{
   padding: 20px;
   border-radius: 10px;
   color: white;
-} */
+}
 
-/* .reviews input [type="text"] {
+.reviews input [type="text"] {
   width: 100%;
   padding: 10px;
   border-radius: 5px;
   border: none;
   margin-bottom: 10px;
   height: 20%;
-} */
+}
 
-/* Style for the form container */
+.bookform{
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+}
+
+.bookform input[type="text"],
+.bookform input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 10px;
+  height: 20%;
+}
+
+.hotel-form{
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+}
+
+.hotel-form input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 10px;
+  height: 20%;
+}
+
+.park-form{
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+}
+
+.park-form input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 10px;
+  height: 20%;
+}
+#sub1{
+  background-color: rgb(28, 164, 28);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+#sub1:hover{
+  background-color: rgb(189, 229, 189);
+}
+
+#sub2{
+  background-color: rgb(28, 164, 28);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+#sub2:hover{
+  background-color: rgb(189, 229, 189);
+}
+
+.bk1{
+  background-color: rgb(28, 164, 28);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.bk1:hover{
+  background-color: rgb(189, 229, 189);
+}
+
+.bk2{
+  background-color: rgb(28, 164, 28);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.bk2:hover{
+  background-color: rgb(189, 229, 189);
+}
+
+.btn5{
+  background-color: rgb(28, 164, 28);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn5:hover{
+  background-color: rgb(189, 229, 189);
+
+}
+
+.btn6{
+  background-color:red;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn6:hover{
+  background-color: lightcoral;
+
+}
 #form {
   max-width: 400px;
   margin: 0 auto;
 }
-
 /* Style for the form inputs */
 .form-outline {
   position: relative;
   margin-bottom: 1rem;
 }
-
 .form-control {
   display: block;
   width: 100%;
@@ -202,11 +342,10 @@ img{
   color: #495057;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid #ced4da;
+  border: 1px solid #CED4DA;
   border-radius: 0.25rem;
   transition: 0.15s ease-in-out;
 }
-
 /* Style for the form labels */
 .form-label {
   position: absolute;
@@ -215,20 +354,33 @@ img{
   font-size: 0.75rem;
   color: #999;
 }
-
 /* Style for the submit button */
 .btn {
-  background-color: #a3461d;
-  border-color: #a45c32;
+  background-color: #A3461D;
+  border-color: #A45C32;
   height: 50px;
   width: 75px;
   border-radius: 10px;
 }
-
 .btn:hover {
   background-color: antiquewhite;
   border-color: antiquewhite;
 }
 #login-title{
   text-align: center;
+}
+
+.addranger-form{
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+}
+
+.addranger-form input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 10px;
+  height: 20%;
 }

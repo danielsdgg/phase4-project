@@ -8,6 +8,7 @@ function Contacts(){
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [feedback, setFeedback] = useState("")
+    const [user_id, setUserId] = useState("")
 
     function handleSubmit(e){
         e.preventDefault()
@@ -17,6 +18,7 @@ function Contacts(){
             name:name,
             email:email,
             feedback:feedback,
+            user_id:user_id,
         }
 
         // fetch review data
@@ -27,7 +29,12 @@ function Contacts(){
             },
             body:JSON.stringify(newMessage)
         })
-        .then((r) => r.json())
+        .then((r) => {
+          if(r.ok){
+            alert("Your Feedback has been received")
+            return r.json()
+          }
+        })
         .then((data) => console.log(data))
         setInputClear()
 
@@ -37,6 +44,7 @@ function Contacts(){
         setName("")
         setEmail("")
         setFeedback("")
+        setUserId("")
     }
     return(
         <div className="fm1" style={{ width: "300px", margin: "auto", textAlign: "center" }}>
@@ -71,6 +79,16 @@ function Contacts(){
       value={feedback}
       placeholder="Your reviews/suggestions"
       onChange={e => setFeedback(e.target.value)}
+      style={{ height: "35px", borderRadius: "5px", border: "1px solid #ccc", padding: "5px" }}
+    />
+
+    <label htmlFor="userid" style={{ textAlign: "left", fontSize: "14px" }}>Enter Your User Id:</label>
+    <input
+      type="text"
+      id="userid"
+      value={user_id}
+      placeholder="Your user id"
+      onChange={e => setUserId(e.target.value)}
       style={{ height: "35px", borderRadius: "5px", border: "1px solid #ccc", padding: "5px" }}
     />
 

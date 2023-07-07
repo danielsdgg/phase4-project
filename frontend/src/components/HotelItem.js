@@ -1,10 +1,5 @@
 import React from "react";
-
-function deleteHotel() {
-    fetch('/hotel',{method:"DELETE",
-      headers:{"Content-Type":"application/json"}
-    })
-  }
+import { Link } from "react-router-dom";
 
 
 function HotelItem({name,image_url,description,location,prices}){
@@ -16,9 +11,9 @@ function HotelItem({name,image_url,description,location,prices}){
             <p>Location: {location}</p>
             <p>Price {prices}</p> <br></br>
 
-            <button className="book">Book</button><br></br><br></br>
-            <button className="upd">Update</button><br></br><br></br>
-            <button className="del1" onClick={deleteHotel}>Delete</button>
+            <Link to={"/bookings"}><button className="bk2">Book</button></Link><br></br><br></br>
+            <Link to={`/updhotel`}><button className="up2">Update</button></Link><br></br><br></br>
+            <Link to={`/onehtl`}><button className="dl2">Delete</button></Link><br></br><br></br>
         </div>
     )
 }

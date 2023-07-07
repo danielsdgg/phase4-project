@@ -25,6 +25,11 @@ function Navbar() {
       activeStyle={{color:"brown"}}>
         Parks
       </NavLink>
+      <NavLink to="/rangers"
+      style={{color:"blue",padding:"10px",}}
+      activeStyle={{color:"brown"}}>
+        Rangers
+      </NavLink>
       <NavLink to="/hotels"
       style={{color:"blue",padding:"10px",}}
       activeStyle={{color:"brown"}}>
@@ -39,6 +44,11 @@ function Navbar() {
       style={{color:"blue",padding:"10px",}}
       activeStyle={{color:"brown"}}>
         Add Park
+      </NavLink>
+      <NavLink to="/addrangers"
+      style={{color:"blue",padding:"10px",}}
+      activeStyle={{color:"brown"}}>
+        Add Rangers
       </NavLink>
     </div>
     </div>

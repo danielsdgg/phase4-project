@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
-const Login = () => {
+const Signup = () => {
+  const history = useHistory()
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -17,7 +19,12 @@ const Login = () => {
       },
       body: JSON.stringify({ username, password, phone_number: phoneNumber }),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok){
+          alert("Signed up Successfully. You can now login")
+          return response.json()
+        }
+      })
       .then((data) => {
         console.log(data);
       })
@@ -25,6 +32,8 @@ const Login = () => {
         console.error('Error:', error);
         console.log('Response:', error.response);
       });
+
+      history.push('/')
   };
 
 return (
@@ -65,4 +74,4 @@ return (
   );
 };
 
-export default Login;
+export default Signup;
