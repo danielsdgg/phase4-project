@@ -518,7 +518,7 @@ def get_ranger(id):
 
     if request.method == 'DELETE':
         if 'id' in session:
-            ranger = Ranger.query.get(id)
+            ranger = Ranger.query.filter_by(id=id).first()
             if ranger:
                 db.session.delete(ranger)
                 db.session.commit()
